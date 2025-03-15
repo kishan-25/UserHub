@@ -1,7 +1,8 @@
 "use client";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/users";
+// Use environment variable with fallback for local development
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://userhub-yk57.onrender.com/users";
 
 const api = axios.create({
   baseURL: API_URL,
