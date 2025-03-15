@@ -1,8 +1,7 @@
 "use client";
 import axios from "axios";
 
-// Directly use the deployed URL (no fallback to localhost)
-const API_URL = "https://userhub-yk57.onrender.com/users";
+const API_URL = "http://localhost:5000/users";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -15,7 +14,7 @@ export const getUsers = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
-    return []; // Return empty array instead of null
+    return [];
   }
 };
 
