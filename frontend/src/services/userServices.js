@@ -1,8 +1,8 @@
 "use client";
 import axios from "axios";
 
-// Use environment variable with fallback for local development
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://userhub-yk57.onrender.com/users";
+// Directly use the deployed URL (no fallback to localhost)
+const API_URL = "https://userhub-yk57.onrender.com/users";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -15,7 +15,7 @@ export const getUsers = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
-    return [];
+    return []; // Return empty array instead of null
   }
 };
 
