@@ -6,9 +6,22 @@ const connectDB = require("./config/db");
 
 const app = express();
 
-// Update your CORS configuration with specific settings
+// Allow multiple origins including your current frontend URL
+const allowedOrigins = [
+  'https://user-pmfu576e0-kishan-25s-projects.vercel.app',
+  'https://user-lgaprdumv-kishan-25s-projects.vercel.app'
+  // Add any other URLs you need to allow
+];
+
 app.use(cors({
-  origin: 'https://user-pmfu576e0-kishan-25s-projects.vercel.app',
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps, Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+    return callback(null, false);
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
