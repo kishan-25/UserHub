@@ -1,7 +1,8 @@
 "use client";
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/users";
+// const API_URL = "http://localhost:5000/users";
+const API_URL = "https://userhub-4ho8.onrender.com/users";
 
 const api = axios.create({
   baseURL: API_URL,
