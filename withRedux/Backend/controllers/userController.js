@@ -18,7 +18,7 @@ exports.getUserById = async (req, res) => {
         }
         res.json(user);
     } catch (error) {
-        console.error(`Error fetching user with id ${req.params.id}:`, error);
+        console.error("Error fetching user:", error);
         res.status(500).json({ error: error.message });
     }
 };
@@ -56,27 +56,27 @@ exports.updateUser = async (req, res) => {
             return res.status(400).json({ error: "Valid name or email is required" });
         }
         
-        // Check if email already exists (if updating email)
+        // Check if email exists and belongs to another user
         if (email) {
             const existingUser = await User.findOne({ email, _id: { $ne: req.params.id } });
             if (existingUser) {
-                return res.status(409).json({ error: "Email already in use" });
+                return res.status(409).json({ error: "Email already in use by another user" });
             }
         }
         
-        const user = await User.findByIdAndUpdate(
+        const updatedUser = await User.findByIdAndUpdate(
             req.params.id,
-            { $set: req.body },
+            req.body,
             { new: true, runValidators: true }
         );
         
-        if (!user) {
+        if (!updatedUser) {
             return res.status(404).json({ error: "User not found" });
         }
         
-        res.json(user);
+        res.json(updatedUser);
     } catch (error) {
-        console.error(`Error updating user with id ${req.params.id}:`, error);
+        console.error("Error updating user:", error);
         res.status(500).json({ error: error.message });
     }
 };
@@ -89,9 +89,9 @@ exports.deleteUser = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
         
-        res.json({ message: "User deleted successfully" });
+        res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
-        console.error(`Error deleting user with id ${req.params.id}:`, error);
+        console.error("Error deleting user:", error);
         res.status(500).json({ error: error.message });
     }
 };

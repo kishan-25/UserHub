@@ -1,8 +1,7 @@
 "use client";
 import axios from "axios";
 
-// const API_URL = "http://localhost:5000/users";
-const API_URL = "https://userhub-4ho8.onrender.com/users";
+const API_URL = "http://localhost:5000/users";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -15,16 +14,6 @@ export const getUsers = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
-    throw error;
-  }
-};
-
-export const getUserById = async (id) => {
-  try {
-    const response = await api.get(`/getUser/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error(`Error fetching user with id ${id}:`, error);
     throw error;
   }
 };
@@ -44,17 +33,27 @@ export const updateUser = async (id, userData) => {
     const response = await api.put(`/updateUser/${id}`, userData);
     return response.data;
   } catch (error) {
-    console.error(`Error updating user with id ${id}:`, error);
+    console.error("Error updating user:", error);
     throw error;
   }
 };
 
 export const deleteUser = async (id) => {
   try {
-    const response = await api.delete(`/deleteUser/${id}`);
+    await api.delete(`/deleteUser/${id}`);
+    return id;
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    throw error;
+  }
+};
+
+export const getUserById = async (id) => {
+  try {
+    const response = await api.get(`/getUser/${id}`);
     return response.data;
   } catch (error) {
-    console.error(`Error deleting user with id ${id}:`, error);
+    console.error("Error fetching user:", error);
     throw error;
   }
 };
